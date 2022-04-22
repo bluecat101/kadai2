@@ -1,0 +1,56 @@
+
+<h1>Books</h1>
+
+
+<table>
+    <thead><tr><th>Title</th><th>Body</th><th colspan="3"></thcolspan></th></tr></thead>
+    <tbody>
+    <% @book_all.each do |book_all|%>
+        <tr>
+            <td><%= book_all.title %></td>
+            <td><%= book_all.body %></td>
+            <td><%= link_to "Show", book_path(book_all.id)%></td>
+            <td><%= link_to "Edit", edit_book_path(book_all.id)%></td>
+            <td><%= link_to "Destroy", book_path(book_all.id), method: :delete ,"data-confirm"=> "Are you sure?"%></td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+
+
+
+<h2>New book</h2>
+
+<% if @book_new.errors.any?%>
+    <div id="error_explanation">
+        <h2><%= @book_new.errors.count%>errors prohibited this book from being save:</h2>
+        <ul>
+            <% @book_new.errors.full_messages.each do |message|%>
+            <li>
+                <%= message%>
+            </li>
+            <%end%>
+        </ul>
+        </div>
+<% end%>
+
+
+<div class="new_book">
+    <%= form_with model: @book_new,url: books_path,method: :post do |book_new| %>
+        <div class="field">
+            <div class="<%="field_with_errors" if @book_new.errors.full_messages.include?("Title can't be blank") %>">
+            <label>Title</label>
+            </div>
+            <%= book_new.text_field :title %>
+        </div>
+        <div class="field">
+            <div class="<%="field_with_errors" if @book_new.errors.full_messages.include?("Body can't be blank") %>">
+            <label>Body</label>
+            </div>
+            <%= book_new.text_area :body %>
+
+        </div>
+        <div class="actions"><%= book_new.submit "Create Book" %></div>
+    <% end %>
+</div>
+

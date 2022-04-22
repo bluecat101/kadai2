@@ -1,0 +1,38 @@
+<h1>Editing Book</h1>
+<% if @book.errors.any?%>
+    <div id="error_explanation">
+        <h2><%= @book.errors.count%>errors prohibited this book from being save:</h2>
+        <ul>
+            <% @book.errors.full_messages.each do |message|%>
+            <li>
+                <%= message%>
+            </li>
+            <%end%>
+        </ul>
+        </div>
+<% end%>
+
+
+
+
+<%= form_with model: @book, url: book_path(@book.id), method: :patch do |book| %>
+    <div class="field">
+
+        <div class="<%="field_with_errors" if @book.errors.full_messages.include?("Title can't be blank") %>">
+            <label>Title</label>
+        </div>
+        <%= book.text_field :title %>
+    </div>
+    <div class="field">
+        <div class="<%="field_with_errors" if @book.errors.full_messages.include?("Body can't be blank") %>">
+            <label>Body</label>
+        </div>
+        <%= book.text_area :body %>
+    </div>
+    <div class="actions">
+        <%= book.submit "Update Book" %>
+        </div>
+<% end %>
+<%= link_to "Show" ,book_path(@book.id),class: "show_#{@book.id}" %>
+|
+<%= link_to "Back" , books_path,class: "back" %>
